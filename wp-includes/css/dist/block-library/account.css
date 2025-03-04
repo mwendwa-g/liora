@@ -44,7 +44,7 @@
 @media (max-width: 600px) {
     .container.cartTab{
         width: 100vw;
-        padding: 1rem;
+        padding: .2rem;
     }
     .cartTab .btn button {
         margin: .6rem 1rem;
