@@ -68,5 +68,8 @@ app.get("/lark-dash", (req, res) => {
 // SAVING THE PROGRAM LOGS
 const logDirectory = path.join(__dirname, "logs");
 const logFile = path.join(logDirectory, "morgan.log");
+if (!fs.existsSync(logDirectory)) {
+    fs.mkdirSync(logDirectory, { recursive: true });
+}
 const logStream = fs.createWriteStream(logFile, { flags: "a" });
 app.use(morgan("tiny", { stream: logStream }));
