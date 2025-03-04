@@ -146,10 +146,11 @@ async function handleCheckout () {
 
     const productDetails = await Promise.all(cartItems.map(async (item) => {
         const response = await fetch(`/api/f1/products/${item.product_id}`);
+        if (!response.ok) throw new Error(`Error fetching product: ${item.product_id}`);
         const product = await response.json();
         return {
             ...item,
-            price: product.currentprice // Assuming API returns `currentprice`
+            price: product.currentprice 
         };
     }));
 
@@ -157,7 +158,7 @@ async function handleCheckout () {
     const totalPrice = productDetails.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
     // Show confirmation alert
-    const confirmOrder = window.confirm(`Your total is ksh ${totalPrice.toFixed(2)}. Do you want to proceed?`);
+    const confirmOrder = window.confirm(`Your total is ksh ${totalPrice.toFixed(0)}. Do you want to proceed?`);
     if (!confirmOrder) return;
 
     // Format cart data for API
@@ -182,13 +183,12 @@ async function handleCheckout () {
         if (!response.ok) throw new Error('Failed to place order');
 
         const order = await response.json();
-        console.log('Order placed:', order);
         alert('Your order is placed!');
         localStorage.removeItem('cart');
         window.location.reload();
     } catch (error) {
         console.error(error);
-        alert('Order failed!');
+        alert('An Error Occured!');
     }
 };
 
