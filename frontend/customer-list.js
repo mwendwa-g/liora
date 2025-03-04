@@ -66,7 +66,7 @@ fetch('/api/f1/users', {
         </td>
         <td>${user.name}</td>
         <td><a href="javascript: void(0);" class="text-body">${user.email}</a> </td>
-        <td> <span class="badge bg-success-subtle text-success py-1 px-2">${user.isAdmin}</span> </td>
+        <td> <span class="badge bg-success-subtle text-success py-1 px-2">${user.isAdmin ? 'Admin' : 'Customer'}</span> </td>
         <td>${user.phone}</td>
         <td>ksh ${user.totalSpent}</td>
         <td>${user.city}</td>
