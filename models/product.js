@@ -33,8 +33,7 @@ const productSchema = mongoose.Schema({
     }],
     countInStock: {
         type: Number,
-        required: true,
-        min: 0
+        required: true
     },
     isFeatured: {
         type: Boolean,
