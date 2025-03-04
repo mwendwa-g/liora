@@ -5,7 +5,9 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const multer = require('multer');
 const path = require('path');
+const upload = require('../models/storage')
 
+/*
 const FILE_TYPE_MAP = {
     'image/png': 'png',
     'image/jpeg': 'jpeg',
@@ -30,10 +32,10 @@ const storage = multer.diskStorage({
     }
 })
 
-const uploadOptions = multer({ storage: storage })
+const uploadOptions = multer({ storage: storage }) */
 
 //CREATING A PRODUCT
-router.post(`/`, uploadOptions.single('image'), async (req, res) => {
+router.post(`/`, upload.single('image'), async (req, res) => {
     const category = await Category.findById(req.body.category);
     if(!category) {
         return res.status(400).send("Invalid Category");
@@ -42,10 +44,11 @@ router.post(`/`, uploadOptions.single('image'), async (req, res) => {
     if(!file) {
         return res.status(400).send("no image in the request");
     }
-    const fileName = file.filename;
-    const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
+    
+    const imageUrl = file.path; 
+
     let product = new Product({
-        image: `${basePath}${fileName}`,
+        image: imageUrl,
         description: req.body.description,
         richDescription: req.body.richDescription,
         originalprice: req.body.originalprice,
@@ -162,31 +165,27 @@ router.get(`/get/featured/:count`, async (req, res) => {
 //SETTING PRODUCT GALLERY
 router.put(
     '/gallery-images/:id', 
-    uploadOptions.array('images', 10), 
+    upload.array('images', 10), 
     async (req, res)=> {
         if(!mongoose.isValidObjectId(req.params.id)) {
             return res.status(400).send('Invalid Product Id')
          }
          const files = req.files
-         let imagesPaths = [];
-         const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
+         let imagePaths = [];
 
          if(files) {
-            files.map(file =>{
-                imagesPaths.push(`${basePath}${file.filename}`);
-            })
+            imagePaths = files.map((file) => file.path);
          }
 
          const product = await Product.findByIdAndUpdate(
             req.params.id,
             {
-                images: imagesPaths
+                images: imagePaths
             },
             { new: true}
         )
 
-        if(!product)
-            return res.status(500).send('the gallery cannot be updated!')
+        if(!product) return res.status(500).send('the gallery cannot be updated!')
 
         res.send(product);
     }
