@@ -7,33 +7,6 @@ const multer = require('multer');
 const path = require('path');
 const upload = require('../models/storage')
 
-/*
-const FILE_TYPE_MAP = {
-    'image/png': 'png',
-    'image/jpeg': 'jpeg',
-    'image/jpg': 'jpg'
-}
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        const isValid = FILE_TYPE_MAP[file.mimetype];
-        let uploadError = new Error('invalid image type');
-        if(isValid) {
-            uploadError = null;
-        }
-        const uploadPath = path.resolve(__dirname, '..', 'public', 'uploads');
-      cb(uploadError, uploadPath);
-    },
-    
-    filename: function (req, file, cb) {
-      const fileName = file.originalname.replace(' ','-');
-      const extension = FILE_TYPE_MAP[file.mimetype];
-      cb(null, `${fileName}-${Date.now()}.${extension}`)
-    }
-})
-
-const uploadOptions = multer({ storage: storage }) */
-
 //CREATING A PRODUCT
 router.post(`/`, upload.single('image'), async (req, res) => {
     const category = await Category.findById(req.body.category);
