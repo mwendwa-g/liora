@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+.cartTab .btn button {
+    margin: .6rem 2rem;
+}
+.cartTab .listCart .item img{
+    width: 100%;
+}
+.cartTab .listCart .item{
+    display: grid;
+    grid-template-columns: 70px 1fr 50px 1fr;
+    gap: 18px;
+    text-align: center;
+    align-items: center;
+}
+.listCart .quantity span{
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    background-color: #eee;
+    color: #555;
+    border-radius: 50%;
+    cursor: pointer ! important;
+    justify-content: center;
+    align-items: center;
+}
+.listCart .quantity span:nth-child(2){
+    background-color: transparent;
+    color: #100f0f;
+}
+.listCart .item:nth-child(even){
+    background-color: #eee1;
+}
+.listCart{
+    overflow: auto;
+}
+.listCart::-webkit-scrollbar{
+    width: 1px;
+}
+
+#products-holder{
+    background-color: rgb(68, 66, 66);
+}
+
+@media (max-width: 600px) {
+    .container.cartTab{
+        width: 100vw;
+        padding: 1rem;
+    }
+    .cartTab .btn button {
+        margin: .6rem 1rem;
+        padding: 0.8rem;
+    }
+    #products-holder{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        width: 100vw;
+        padding: 0.5rem;
+    }
+}
