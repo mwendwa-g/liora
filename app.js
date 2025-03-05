@@ -79,3 +79,28 @@ if (!fs.existsSync(logDirectory)) {
 }
 const logStream = fs.createWriteStream(logFile, { flags: "a" });
 app.use(morgan("tiny", { stream: logStream }));
+
+if (typeof window !== "undefined") {
+    let deferredPrompt;
+  
+    window.addEventListener("beforeinstallprompt", (event) => {
+      event.preventDefault();
+      deferredPrompt = event;
+  
+      const installButton = document.createElement("button");
+      installButton.textContent = "Install App";
+      installButton.style.cssText =
+        "position:fixed; bottom:20px; left:20px; padding:10px; background:#c9a654; color:white; border:none; border-radius:5px;";
+      document.body.appendChild(installButton);
+  
+      installButton.addEventListener("click", () => {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choice) => {
+          if (choice.outcome === "accepted") {
+            console.log("User installed the app");
+          }
+          installButton.remove();
+        });
+      });
+    });
+  }
