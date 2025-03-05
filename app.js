@@ -11,6 +11,12 @@ const errorHandler = require("./helpers/error-handler");
 
 require("dotenv/config");
 
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/service-worker.js")
+      .then(() => console.log("Service Worker Registered"))
+      .catch((err) => console.log("Service Worker Failed", err));
+}
+
 app.use(express.static(path.join(__dirname)));
 
 //ROUTES
